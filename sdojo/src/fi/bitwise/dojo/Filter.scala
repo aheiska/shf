@@ -39,7 +39,6 @@ object Filter {
     pi2(l.zipWithIndex)
   }
 
-  
   def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
     case Nil => Nil
     case h :: t if f(h) => h :: filter(t, f)

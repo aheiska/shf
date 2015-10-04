@@ -42,7 +42,7 @@ Executable hdojo
   install-includes:
   include-dirs:
   hs-source-dirs:
-  other-modules:
+  other-modules: Map Fold Filter Reduce
   ghc-prof-options:
   ghc-shared-options:
   ghc-options:

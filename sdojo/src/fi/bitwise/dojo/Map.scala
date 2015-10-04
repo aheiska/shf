@@ -28,12 +28,12 @@ object Map {
 
   def map1(l: List[Int], f: Int => Int) : List[Int] = l match {
     case Nil => Nil
-    case h :: t => f(h) :: map(t, f)
+    case h :: t => f(h) :: map1(t, f)
   }
   
-  def map[T,V](l: List[T], f: T => V) : List[V] = l match {
+  def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
     case Nil => Nil
-    case h :: t => f(h) :: map(t, f)
+    case h :: t => f(h) :: map(t)(f)
   }
   
 
