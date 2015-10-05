@@ -12,21 +12,20 @@ module Reduce =
         | [] -> 1
         | y :: ys -> y * mult ys
 
-    let rec lens xs = 
+    let rec lens xs =
         match xs with
         | [] -> 0
         | s :: ss -> String.length(s) + lens ss
 
     let double x = x+x
 
-    let rec sumDoubles xs = 
+    let rec sumDoubles xs =
         match xs with
         | [] -> 0
         | y :: ys -> double y + sumDoubles ys
 
     let rec reduce f xs =
-        match xs with 
-        | [] -> invalidArg "reduce for empty list" 
+        match xs with
+        | [] -> invalidArg "reduce for empty list"
         | y :: [] -> y
         | y :: ys -> f y (reduce f ys)
-
