@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Ensikosketus funktionaaliseen ohjelmointiin</title>
+
+		<meta name="description" content="Funktionaalisen ohjelmoinnin perusteita vahvasti tyypitetyillä kielillä">
+		<meta name="author" content="(Anssi Heiska, Tuomas Peltola)">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Ensikosketus funktionaaliseen ohjelmointiin</h1>
+					<h3>(vahvasti tyypitettynä)</h3>
+				</section>
+
+				<section>
+					<h2>Sisältö</h2>
+					<ul>
+						<li>Esittely</li>
+						<li>Teoria</li>
+						<li>Tehtävä 1: Reduce</li>
+						<li>Tehtävä 2: Map</li>
+						<li>Tehtävä 3: Filter</li>
+						<li>Tehtävä 4: Fold</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Esittely</h2>
+					<p>
+						Bitwise on laaja-alainen ohjelmistotalo Viinikanojan kupeessa.
+					</p>
+					<p>
+						Anssi Heiska ...
+					</p>
+					<p>
+						Tuomas Peltola koki funktionaalisen valaistumisen 2008 Groovylla.
+						Vuosien käyttö on vaatinut siirtymisen yhä kovempiin aineisiin,
+						mutta monadit ovat edelleen hyödyttömiä.
+					</p>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Funktionaalisen ja imperatiivisen ero</h2>
+					<p>
+						Funktionaalisessa ohjelmoinnissa funktiot ovat ensimmäisen luokan kansalaisia.
+						Erityisen oleellisia ovat korkeamman kertaluokan funktiot; funktiot, jotka ottavat funktion parametrina.
+					</p>
+					<p>
+						Imperatiivisen ohjelmoinnin peruskäsitteitä,
+						muuttuvia muuttujia, ehtoja tai silmukoja,
+						ei ole funktionaalisessa ohjelmoinnissa
+					</p>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Lambda (sulkeuma)</h2>
+					<p>
+						Lambda on anonyymi funktio, joka voi viitata kontekstinsa muuttujiin
+					</p>
+				</section>
+
+				<section>
+					<h3>Teoriaa: Lambdat koodissa</h3>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+val y = 5
+list.map(x => x * y)
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code data-trim contenteditable>
+y = 5
+map (\x -> x * y) list
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code data-trim contenteditable>
+
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Immutable lista</h2>
+					<p>
+						Muuttumaton (linkitetty) lista, joka koostuu rekursiivisesti
+						päästä (head) ja hännästä (tail). Pää on alkio ja häntä on uusi,
+						yhden lyhyempi lista.
+					</p>
+				</section>
+
+				<section>
+					<h3>Teoriaa: Listat koodissa</h3>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+1 :: 2 :: 3 :: Nil
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code class="haskell" data-trim contenteditable>
+1 : 2 : 3 : []
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code data-trim contenteditable>
+
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Hahmontunnistus</h2>
+					<p>
+						switch-case steroideilla. Samaan aikaan testataan ehtoa ja puretaan arvo muuttujiin
+					</p>
+				</section>
+
+				<section>
+					<h3>Teoriaa: Hahmontunnistus koodissa</h3>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+def id[T](list: List[T]): List[T] = list match {
+  case Nil => Nil
+  case head :: tail => head :: id(tail)
+}
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code class="haskell" data-trim contenteditable>
+id [] = []
+id (head : tail) = head : id tail
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code data-trim contenteditable>
+
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Tyyppi-inferenssi</h2>
+					<p>
+						Välttää Java-tyyliset tyypin tuplamäärittelyt.
+						Päättelee kontekstin perusteella muuttujan tai funktion tyypin.
+					</p>
+				</section>
+
+				<section>
+					<h3>Teoriaa: Tyyppi-inferenssi koodissa</h3>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+def sum(i: Int, j: Int) = i + j
+val s = sum(1, 2)
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code class="haskell" data-trim contenteditable>
+sum i j = i + j
+let s = sum 1 2
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code data-trim contenteditable>
+
+					</code></pre>
+				</section>
+
+				<section>
+					<h4>Teoriaa: Miten ohjelmoidaan funktionaalisesti</h4>
+					<h5>Rekursiolla!</h5>
+					<p>
+						Rekursiota käytetään harvoin käytännössä suoraan,
+						vaan sitä käytetään apufunktioiden, kuten filter, map, reduce ja fold, kautta.
+						Jotta ymmärtäisimme miten ne toimivat, harjoitellaan niiden kirjoittamista itse.
+					</p>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
