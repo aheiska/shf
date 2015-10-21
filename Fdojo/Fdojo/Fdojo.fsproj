@@ -38,7 +38,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
-    <Compile Include="Reduce.fs" />
+    <Compile Include="Code\Reduce.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <Folder Include="Code\" />
+  </ItemGroup>
 </Project>
