@@ -63,7 +63,8 @@
 						Bitwise on laaja-alainen ohjelmistotalo Viinikanojan kupeessa.
 					</p>
 					<p>
-						Anssi Heiska. Tyypitetty fp on ihanaa &lt;3.
+						Anssi Heiska. Tyypitetty fp on ihanaa &lt;3. Monadi on vain sellainen
+						Functor jolla aloittelijoita yleensä pelotellaan :).
 					</p>
 					<p>
 						Tuomas Peltola koki funktionaalisen valaistumisen 2008 Groovylla.
@@ -98,6 +99,7 @@
 
 				<section>
 					<h2>Funktiot ensimmäisen luokan kansalaisina</h2>
+					<blockquote>hölmössä paikasssa. Lambda on uusi juttu vielä...</blockquote>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
 val add1 = (i: Int) => i+1
@@ -139,7 +141,7 @@ f 1
 
 				<section>
 					<h3>Teoriaa: Lambdat koodissa</h3>
-					<b>Miten demota näitä kun ei vielä osata korkeamman kertaluvun funktioita?</b>
+					<blockquote>Miten demota näitä kun ei vielä osata korkeamman kertaluvun funktioita?</blockquote>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
 val y = 5
@@ -165,27 +167,52 @@ list.Select(fun x -> x * y) // open System.Linq
 						päästä (head) ja hännästä (tail). Pää on alkio ja häntä on uusi,
 						yhden lyhyempi lista.
 					</p>
+					<p>
+						Tietotyypit jonka päälle listat rakentuvat (oikeasti nämä ovat hieman eri nimisiä).
+						Eivät varsinaisesti tämän dojon ydinasiaa ja näistä päästään kys kielten
+						tyyppijärjestelmiin aika nopeasti mikä ei ole tämän kerran tavoite.
+					</p>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+trait List[+T]
+case object Nil extends List[Nothing]
+case class Cons[+T](head: T, tail: List[T]) extends List[T]
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code class="haskell" data-trim contenteditable>
+data List a = Nil | Cons a (List a)
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code class="F#" data-trim contenteditable>
+type List<'a> = Nil | Cons of 'a * List<'a>
+					</code></pre>
 				</section>
 
 				<section>
 					<h3>Teoriaa: Listat koodissa</h3>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
-1 :: 2 :: 3 :: Nil
+List(1, 2, 3)
+> 1 :: 2 :: 3 :: Nil
 					</code></pre>
 					<h5>Haskell</h5>
 					<pre><code class="haskell" data-trim contenteditable>
-1 : 2 : 3 : []
+[1, 2, 3]
+> 1 : 2 : 3 : []
 					</code></pre>
 					<h5>F#</h5>
-					<pre><code data-trim contenteditable>
-1 :: 2 :: List.Empty
-1 :: 2 :: []
+					<pre><code class="F#" data-trim contenteditable>
+[1; 2; 3]
+> 1 :: 2 :: []
 					</code></pre>
 				</section>
 
 				<section>
 					<h2>Teoriaa: Hahmontunnistus</h2>
+					<p>
+						Eikö olisi näppärää, jos aina ei tarvitisis kirjoittaa if (olio.jasen == x) ... else if (olio.jasen == y)...
+						Tämä onnistuu hahmontunnistuksen avulla (eng pattern matching).
+					</p>
 					<p>
 						switch-case steroideilla. Samaan aikaan testataan ehtoa ja puretaan arvo muuttujiin
 					</p>
@@ -206,7 +233,7 @@ id [] = []
 id (head : tail) = head : id tail
 					</code></pre>
 					<h5>F#</h5>
-					<pre><code data-trim contenteditable>
+					<pre><code class="f#" data-trim contenteditable>
 let rec id list =
     match list with
     | [] -> []
@@ -225,12 +252,12 @@ let rec id list =
 				<section>
 					<h3>Teoriaa: Tyyppi-inferenssi koodissa</h3>
 					<h5>Scala</h5>
-					<pre><code class="scala" data-trim contenteditable>
-// jooh, eivät oikein ole kuin osoitus scalan tyyppi-inferencen heikkoudesta
+<!-- // jooh, eivät oikein ole kuin osoitus scalan tyyppi-inferencen heikkoudesta
 //val sum = (a: Int, b:Int) => a + b
 //val sum : (Int, Int) => Int = (a, b) => a + b
 //val sum : Int => Int => Int = (a) => (b) => a + b
-//val sum = (a: Int) => (b: Int) => a + b
+//val sum = (a: Int) => (b: Int) => a + b -->
+					<pre><code class="scala" data-trim contenteditable>
 def sum(i: Int, j: Int) = i + j
 val s = sum(1, 2)
 					</code></pre>
@@ -240,8 +267,9 @@ sum i j = i + j
 let s = sum 1 2
 					</code></pre>
 					<h5>F#</h5>
-					<pre><code data-trim contenteditable>
-let sum x y = x + y // let sum = fun x y -> x + y
+<!-- // let sum = fun x y -> x + y -->
+					<pre><code class="ocaml" data-trim contenteditable>
+let sum x y = x + y
 let s = sum 1 2
 					</code></pre>
 				</section>
@@ -268,6 +296,17 @@ def sum(l: List[Int]) : Int = l match {
   case h :: t => h + sum(t)
 }
 					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+sum' :: [Integer] -> Integer
+sum' [] = 0
+sum' (h : t) = h + (sum t)
+					</code></pre>
+					<pre><code class="f#" data-trim contenteditable>
+let rec sum xs =
+    match xs with
+    | []    -> 0
+    | y::ys -> y + sum ys
+					</code></pre>
 				</section>
 
 				<section>
@@ -281,7 +320,7 @@ def sum(l: List[Int]) : Int = l match {
 
 				<section>
 					<h3>Tehtävä 1: Reduce</h3>
-					<p>P2715Q 
+					<p>
 						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
 					</p>
 					<p>
@@ -297,8 +336,12 @@ def reduce[T](l: List[T], z: T)(f: (T, T) => T) : T = l match {
   case h :: t => f(h, reduce(t, z)(f))
 }
 					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+reduce :: (a -> a -> a) -> a -> [a] -> a
+reduce f z [] = z
+reduce f z (h : t) = f h (reduce f z t)
+					</code></pre>
 				</section>
-
 				<section>
 					<h3>Tehtävä 2: Map</h3>
 					<p>
@@ -310,6 +353,11 @@ def add1(l: List[Int]) : List[Int] = l match {
   case Nil => Nil
   case h :: t => h + 1 :: add1(t)
 }
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+add1 :: [Integer] -> [Integer]
+add1 [] = []
+add1 (x : xs) = x+1 : add1 xs
 					</code></pre>
 				</section>
 
@@ -338,6 +386,11 @@ def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
   case Nil => Nil
   case h :: t => f(h) :: map(t)(f)
 }
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+map' :: (a -> b) -> [a] -> [b]
+map' _ [] = []
+map' f (x : xs) = f x : map f xs
 					</code></pre>
 				</section>
 
@@ -377,6 +430,13 @@ def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
   case h :: t if f(h) => h :: filter(t, f)
   case _ :: t => filter(t, f)
 }
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' f (x : xs)
+  | f x       = x : filter' f xs
+  | otherwise = filter' f xs
 					</code></pre>
 				</section>
 
@@ -433,6 +493,30 @@ def filterf[T](l: List[T])(f: T => Boolean) =
     if (f(v)) v :: l else l
   }
 					</code></pre>
+				</section>
+
+				<section>
+					<h3>Fold, huomiot</h3>
+					<blockquote>fold on listan rekursion yleistys!</blockquote>
+					<p>
+						Oikeastaan mappiä, filteriä jne ei tarvittaisi kunhan fold on saatavilla. Tosin
+						on paljon mukavampi kirjoittaa <code>map (+1) lista</code> kuin
+						<code>foldr (\x acc -> x + 1 : acc) [] lista</code>
+					</p>
+				</section>
+
+				<section>
+					<h3>Lopuksi</h3>
+					<p>
+						Millään tänään opitulla, on oikeastaan aika vähän mitään tekemistä
+						funktionaalisen ohjelmoinnin käytännön kanssa. Anteeksi.
+					</p>
+					<p>
+						Nämä asiat on kuitenkin tärkeä ymmärtää, koska niin moni aisia palautuu
+						listan käsittelyyn. Uskomme myös vahvaan näppituntumaan, kun asian on
+						kerran kirjoittanut sen myös oppii hyvin.
+						(Programming is not a specatator sport)
+					</p>
 				</section>
 
 			</div>
