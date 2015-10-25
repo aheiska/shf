@@ -257,26 +257,182 @@ let s = sum 1 2
 				</section>
 
 				<section>
-					<h2>Esimerkki</h2>
+					<h3>Tehtävä 1: Reduce</h3>
 					<p>
-						Funtio joka laskee listan alkioiden summan.
+						Halutaan redusoida lista yhdeksi arvoksi. Esimerkiksi listan kaikkien
+						alkioiden summa?
 					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def sum(l: List[Int]) : Int = l match {
+  case Nil => 0
+  case h :: t => h + sum(t)
+}
+					</code></pre>
 				</section>
 
 				<section>
-					<h2>Tehtävä</h2>
+					<h3>Tehtävä 1: Reduce</h3>
 					<ol>
-						<li>Toteuta funktio joka kertoo listan alkiot keskenään</li>
-						<li>Katenoi string-listan stringit yhteen</li>
-						<li>Laskee string-listan alkioiden pituuksien summan</li>
+						<li>Kaikkien alkioiden tulo</li>
+						<li>Kaikki alkiot (merkkijonot) katenoituna yhteen merkkijonoon</li>
+						<li>Kaikkien alkioiden (merkkijonojen) pituudet laskettuna yhteen</li>
 					</ol>
 				</section>
 
 				<section>
-					<h2>Huomiot</h2>
-					<p>
-						Edelliset ovat keskenään aika samanlaisia... Voisiko niitä yksinkertaistaa jotenkin?
+					<h3>Tehtävä 1: Reduce</h3>
+					<p>P2715Q 
+						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
 					</p>
+					<p>
+						Toteuta funktio reduce, joka abstrahoi kaiken muun paitsi eroavan osuuden.
+					</p>
+				</section>
+
+				<section>
+					<h3>Tehtävä 1: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def reduce[T](l: List[T], z: T)(f: (T, T) => T) : T = l match {
+  case Nil => z
+  case h :: t => f(h, reduce(t, z)(f))
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 2: Map</h3>
+					<p>
+						Halutaan muuttaa listan sisältö toiseksi. Esimerkiksi lisätään
+						jokaiseen listan alkioon yksi?
+					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def add1(l: List[Int]) : List[Int] = l match {
+  case Nil => Nil
+  case h :: t => h + 1 :: add1(t)
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 2: Map</h3>
+					<ol>
+						<li>Jokainen alkio kerrottuna kahdella</li>
+						<li>Jokaisen alkion (merkkijono) pituus</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Tehtävä 2: Map</h3>
+					<p>
+						Taas käytännössä sama koodi kaikissa! Mitä eroja niissä tällä kertaa on?
+					</p>
+					<p>
+						Toteuta funktio map, joka abstrahoi kaiken muun paitsi eroavan osuuden.
+					</p>
+				</section>
+
+				<section>
+					<h3>Tehtävä 2: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
+  case Nil => Nil
+  case h :: t => f(h) :: map(t)(f)
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 3: Filter</h3>
+					<p>
+						Halutaan listasta vain jotkut alkiot. Esimerkiksi kaikki alle viiden
+						suuruiset?
+					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def alle5(l: List[Int]): List[Int] = l match {
+  case Nil => Nil
+  case h :: t => if (h < 5) h :: alle5(t) else alle5(t)
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 3: Filter</h3>
+					<ol>
+						<li>Vain parilliset luvut</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Tehtävä 3: Filter</h3>
+					<p>
+						Miten eroaa esimerkistä? Toteuta filter.
+					</p>
+				</section>
+
+				<section>
+					<h3>Tehtävä 3: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
+  case Nil => Nil
+  case h :: t if f(h) => h :: filter(t, f)
+  case _ :: t => filter(t, f)
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 4: Fold</h3>
+					<p>
+						Itseasiassa nämä kolmekin ovat selvästi samanlaisia.
+					</p>
+					<pre><code class="scala" data-trim contenteditable>
+reduce[T](l: List[T], f: (T, T) => T, z: T) : T = l match {
+	case Nil => z
+	case h :: t => f(h, reduce(t, f, z))
+}
+
+def map[T,V](l: List[T], f: T => V) : List[V] = l match {
+	case Nil => Nil
+	case h :: t => f(h) :: map(t, f)
+}
+
+def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
+	case Nil => Nil
+	case h :: t if f(h) => h :: filter(t, f)
+	case _ :: t => filter(t, f)
+}
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 4: Fold</h3>
+					<ol>
+						<li>Toteuta rekursiivinen funktio fold, joka yhdistää reducen, mapin ja filterin</li>
+						<li>Toteuta reduce käyttäen foldia</li>
+						<li>Toteuta map käyttäen foldia</li>
+						<li>Toteuta filter käyttäen foldia</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Tehtävä 4: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def fold[T, V](l: List[T], z: V)(f: (T, V) => V) : V = l match {
+  case Nil => z
+  case h :: t => f(h, fold(t, f, z))
+}
+
+def reducef[T](l: List[T])(f: (T, T) => T) =
+  fold(l.tail, l.head)(f)
+
+def mapf[T, V](l: List[T])(f: T => V) =
+  fold(l, List[V]()) { (v, l) => f(v) :: l }
+
+def filterf[T](l: List[T])(f: T => Boolean) =
+  fold(l, List[T]()) { (v, l) =>
+    if (f(v)) v :: l else l
+  }
+					</code></pre>
 				</section>
 
 			</div>

@@ -3,12 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Fdojo", "Fdojo\Fdojo.fsproj", "{7ACDA483-1F7E-4CF4-ADC6-E5DCA73F718F}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Assignments", "Assignments\Assignments.fsproj", "{4CDD58DA-F0F0-4043-A399-0580E49C5ADB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CDD58DA-F0F0-4043-A399-0580E49C5ADB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CDD58DA-F0F0-4043-A399-0580E49C5ADB}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CDD58DA-F0F0-4043-A399-0580E49C5ADB}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CDD58DA-F0F0-4043-A399-0580E49C5ADB}.Release|x86.Build.0 = Release|Any CPU
 		{7ACDA483-1F7E-4CF4-ADC6-E5DCA73F718F}.Debug|x86.ActiveCfg = Debug|x86
 		{7ACDA483-1F7E-4CF4-ADC6-E5DCA73F718F}.Debug|x86.Build.0 = Debug|x86
 		{7ACDA483-1F7E-4CF4-ADC6-E5DCA73F718F}.Release|x86.ActiveCfg = Release|x86

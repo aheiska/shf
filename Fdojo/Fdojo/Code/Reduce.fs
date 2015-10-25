@@ -1,4 +1,4 @@
-﻿
+﻿namespace Fdojo.Code
 
 module Reduce =
 
