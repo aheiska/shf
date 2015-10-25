@@ -1,5 +1,5 @@
 module Map where
-  
+
 add1 :: [Integer] -> [Integer]
 add1 [] = []
 add1 (x : xs) = x+1 : add1 xs
@@ -14,5 +14,4 @@ lens (x : xs) = length x : lens xs
 
 map' :: (a -> b) -> [a] -> [b]
 map' _ [] = []
-map' f (x : xs) = f x : map f xs 
-
+map' f (x : xs) = f x : map f xs

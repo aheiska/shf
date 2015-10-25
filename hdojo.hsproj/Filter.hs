@@ -18,19 +18,23 @@ parilliset xs = [ x | x <- xs, even x]
 
 evenIndex :: [a] -> [a]
 evenIndex as = map fst l where
-  l = filter (even . snd) (zip as [0..]) 
+  l = filter (even . snd) (zip as [0..])
 
 evenIndex' :: [a] -> [a]
 evenIndex' xx = ei xx 0 where
   ei :: [a] -> Int -> [a]
   ei [] _ = []
-  ei (x : xs) i 
+  ei (x : xs) i
     | even i    = x : ei xs (i+1)
     | otherwise = ei xs (i+1)
-    
+
+filter0 :: (a -> Bool) -> [a] -> [a]
+filter0 _ [] = []
+filter0 f (x : xs) = if f x then x : filter0 f xs else filter0 xs
+
 filter' :: (a -> Bool) -> [a] -> [a]
 filter' _ [] = []
-filter' f (x : xs) 
+filter' f (x : xs)
   | f x       = x : filter' f xs
   | otherwise = filter' f xs
 

@@ -9,11 +9,11 @@ FP-intro dojo @ tty
 * immutable lista
  * miltä näyttää?
  * scala 1 :: (2 :: (3 :: Nil))
- `sealed trait List[T];`
+ `sealed trait List[T]`
  `case object Nil extends List[Nothing]`
- `case class Cons extens List[T]`
+ `case class Cons[T](h: T, t: List[T]) extends List[T]`
  * haskell 1 : (2 : (3 : []))
- `data List a = Nil | Cons a`
+ `data List a = Nil | Cons a (List a)`
  * F# `type List<'a> = Nil | Cons ....`
 * type inference?
  * Maininta mitä on
