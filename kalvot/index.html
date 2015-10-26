@@ -51,10 +51,7 @@
 						<li>Esittely</li>
 						<li>Johdanto</li>
 						<li>Teoria</li>
-						<li>Tehtävä 1: Reduce</li>
-						<li>Tehtävä 2: Map</li>
-						<li>Tehtävä 3: Filter</li>
-						<li>Tehtävä 4: Fold</li>
+						<li>Koodaustehtävät</li>
 					</ul>
 				</section>
 
@@ -238,35 +235,17 @@ let rec id list =
 				</section>
 
 				<section>
-					<h2>Teoriaa: Tyyppi-inferenssi</h2>
+					<h3>Teoriaa: Ei lauseita (statement)</h3>
 					<p>
-						Välttää Java-tyyliset tyypin tuplamäärittelyt.
-						Päättelee kontekstin perusteella muuttujan tai funktion tyypin.
+						Funktionaalisissa kielissä on hyvin vähän (tai ei lainkaan) lauseita,
+						vaan koodi muodostuu lausekkeista (expression). Esimerkiksi if palauttaa
+						aina arvon.
 					</p>
-				</section>
-
-				<section>
-					<h3>Teoriaa: Tyyppi-inferenssi koodissa</h3>
-					<h5>Scala</h5>
-<!-- // jooh, eivät oikein ole kuin osoitus scalan tyyppi-inferencen heikkoudesta
-//val sum = (a: Int, b:Int) => a + b
-//val sum : (Int, Int) => Int = (a, b) => a + b
-//val sum : Int => Int => Int = (a) => (b) => a + b
-//val sum = (a: Int) => (b: Int) => a + b -->
 					<pre><code class="scala" data-trim contenteditable>
-def sum(i: Int, j: Int) = i + j
-val s = sum(1, 2)
+val z = if (x > y) x else y
 					</code></pre>
-					<h5>Haskell</h5>
 					<pre><code class="haskell" data-trim contenteditable>
-sum i j = i + j
-let s = sum 1 2
-					</code></pre>
-					<h5>F#</h5>
-<!-- // let sum = fun x y -> x + y -->
-					<pre><code class="f#" data-trim contenteditable>
-let sum x y = x + y
-let s = sum 1 2
+let z = if x > y then x else y
 					</code></pre>
 				</section>
 
