@@ -247,6 +247,9 @@ val z = if (x > y) x else y
 					<pre><code class="haskell" data-trim contenteditable>
 let z = if x > y then x else y
 					</code></pre>
+					<pre><code class="F#" data-trim contenteditable>
+let z = if x > y then x else y
+					</code></pre>
 				</section>
 
 				<section>
@@ -260,7 +263,75 @@ let z = if x > y then x else y
 				</section>
 
 				<section>
-					<h3>Tehtävä 1: Reduce</h3>
+					<h3>Tehtävä 1</h3>
+					<p>
+						Halutaan muuttaa listan sisältö toiseksi. Esimerkiksi lisätään
+						jokaiseen listan alkioon yksi?
+					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def add1(l: List[Int]) : List[Int] = l match {
+  case Nil    => Nil
+  case h :: t => h + 1 :: add1(t)
+}
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+add1 :: [Integer] -> [Integer]
+add1 []       = []
+add1 (x : xs) = x+1 : add1 xs
+					</code></pre>
+					<pre><code class="F#" data-trim contenteditable>
+let rec add1 xs =
+    match xs with
+    | []     -> []
+    | h :: t -> h+1 :: add1 t
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 2</h3>
+					<p>
+						Kirjoita funktio joka:
+					</p>
+					<ol>
+						<li>Kertoo jokaisen listan alkion kahdella</li>
+						<li>Ottaa jokaisen listan alkion (merkkijono) pituuden uuteen listaan</li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Tehtävä 1</h3>
+					<p>
+						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
+					</p>
+					<p>
+						Toteuta funktio map, joka abstrahoi kaiken muun paitsi eroavan osuuden.
+					</p>
+				</section>
+
+				<section>
+					<h3>Tehtävä 1: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
+  case Nil    => Nil
+  case h :: t => f(h) :: map(t)(f)
+}
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+map' :: (a -> b) -> [a] -> [b]
+map' _ []       = []
+map' f (x : xs) = f x : map f xs
+					</code></pre>
+					<pre><code class="F#" data-trim contenteditable>
+let rec map' xs f =
+    match xs with
+    | []     -> []
+    | h :: t -> f h :: map' t f
+					</code></pre>
+				</section>
+
+
+				<section>
+					<h3>Tehtävä 1</h3>
 					<p>
 						Halutaan redusoida lista yhdeksi arvoksi. Esimerkiksi listan kaikkien
 						alkioiden summa?
@@ -285,7 +356,7 @@ let rec sum xs =
 				</section>
 
 				<section>
-					<h3>Tehtävä 1: Reduce</h3>
+					<h3>Tehtävä 3</h3>
 					<ol>
 						<li>Kaikkien alkioiden tulo</li>
 						<li>Kaikki alkiot (merkkijonot) katenoituna yhteen merkkijonoon</li>
@@ -315,57 +386,6 @@ def reduce[T](l: List[T], z: T)(f: (T, T) => T) : T = l match {
 reduce :: (a -> a -> a) -> a -> [a] -> a
 reduce f z [] = z
 reduce f z (h : t) = f h (reduce f z t)
-					</code></pre>
-				</section>
-				<section>
-					<h3>Tehtävä 2: Map</h3>
-					<p>
-						Halutaan muuttaa listan sisältö toiseksi. Esimerkiksi lisätään
-						jokaiseen listan alkioon yksi?
-					</p>
-					<pre><code class="scala" data-trim contenteditable>
-def add1(l: List[Int]) : List[Int] = l match {
-  case Nil => Nil
-  case h :: t => h + 1 :: add1(t)
-}
-					</code></pre>
-					<pre><code class="haskell" data-trim contenteditable>
-add1 :: [Integer] -> [Integer]
-add1 [] = []
-add1 (x : xs) = x+1 : add1 xs
-					</code></pre>
-				</section>
-
-				<section>
-					<h3>Tehtävä 2: Map</h3>
-					<ol>
-						<li>Jokainen alkio kerrottuna kahdella</li>
-						<li>Jokaisen alkion (merkkijono) pituus</li>
-					</ol>
-				</section>
-
-				<section>
-					<h3>Tehtävä 2: Map</h3>
-					<p>
-						Taas käytännössä sama koodi kaikissa! Mitä eroja niissä tällä kertaa on?
-					</p>
-					<p>
-						Toteuta funktio map, joka abstrahoi kaiken muun paitsi eroavan osuuden.
-					</p>
-				</section>
-
-				<section>
-					<h3>Tehtävä 2: Ratkaisu</h3>
-					<pre><code class="scala" data-trim contenteditable>
-def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
-  case Nil => Nil
-  case h :: t => f(h) :: map(t)(f)
-}
-					</code></pre>
-					<pre><code class="haskell" data-trim contenteditable>
-map' :: (a -> b) -> [a] -> [b]
-map' _ [] = []
-map' f (x : xs) = f x : map f xs
 					</code></pre>
 				</section>
 
