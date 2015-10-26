@@ -89,7 +89,7 @@
 					<p>
 						Funktionaalisessa ohjelmoinnissa funktiot ovat ensimmäisen luokan kansalaisia.
 						Erityisen oleellisia ovat korkeamman kertaluokan funktiot; funktiot, jotka ottavat funktion parametrina.
-						(Tai palauttavat uuden funktion. Tai molempia.)
+						Tai palauttavat uuden funktion. Tai molempia.
 					</p>
 					<p>
 						Imperatiivisen ohjelmoinnin peruskäsitteitä,
@@ -166,6 +166,10 @@ laske (fun l r -> x * l + r) 3 5
 						Eivät varsinaisesti tämän dojon ydinasiaa ja näistä päästään ko kielten
 						tyyppijärjestelmiin aika nopeasti mikä ei ole tämän kerran tavoite.
 					</p>
+				</section>
+
+				<section>
+					<h2>Teoriaa: Listan määrittely</h2>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
 sealed trait List[+T]
@@ -202,13 +206,13 @@ List(1, 2, 3)
 				</section>
 
 				<section>
-					<h2>Teoriaa: Hahmontunnistus</h2>
+					<h2>Teoriaa: Hahmontunnistus (pattern matching)</h2>
 					<p>
-						Eikö olisi näppärää, jos aina ei tarvitisis kirjoittaa if (olio.jasen == x) ... else if (olio.jasen == y)...
-						Tämä onnistuu hahmontunnistuksen avulla (eng pattern matching).
+						Eikö olisi näppärää, jos aina ei tarvitsisi kirjoittaa if (olio.jasen == x) ... else if (olio.jasen == y)...
+						Tämä onnistuu hahmontunnistuksen avulla.
 					</p>
 					<p>
-						switch-case steroideilla. Samaan aikaan testataan ehtoa ja puretaan arvo muuttujiin
+						Switch-case steroideilla. Samaan aikaan testataan ehtoa ja puretaan arvo muuttujiin.
 					</p>
 				</section>
 
@@ -254,12 +258,14 @@ let z = if x > y then x else y
 				</section>
 
 				<section>
-					<h4>Teoriaa: Miten ohjelmoidaan funktionaalisesti</h4>
-					<h5>Rekursiolla!</h5>
+					<h4>Teoriaa: Miten ohjelmoidaan funktionaalisesti?</h4>
+					<h5>- Rekursiolla!</h5>
 					<p>
-						Rekursiota käytetään harvoin käytännössä suoraan,
-						vaan sitä käytetään apufunktioiden, kuten filter, map, reduce ja fold, kautta.
-						Jotta ymmärtäisimme miten ne toimivat, harjoitellaan niiden kirjoittamista itse.
+						Jotta voit ymmärtää rekursion, sinun on ymmärrettävä rekursio.
+					</p>
+					<p>
+						Vaikka rekursiota käytetään harvoin käytännössä suoraan, funktionaalinen
+						ohjelmointi perustuu silti usein rekursioon sekä tietorakenteissa että algoritmeissa.
 					</p>
 				</section>
 
@@ -628,7 +634,11 @@ filterf f xs = foldr' lf ([] :: [a]) xs where
 						kerran kirjoittanut sen myös oppii hyvin.
 						(Programming is not a specatator sport)
 					</p>
-					<blockquote>99 problems, learn you a haskell</blockquote>
+					<h6>Kotitehtäviä</h6>
+					<ol>
+						<li><a href="http://aperiodic.net/phil/scala/s-99/">99 ongelmaa</a></li>
+						<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good!</a></li>
+					</ol>
 					<blockquote>
 						Steps to becoming a great (Haskell) programmer:<br />
 						1.) Pick a problem.<br />
