@@ -30,3 +30,8 @@ module Reduce =
         | y :: [] -> y
         | y :: ys -> f y (reduce f ys)
 
+    let rec reduce' f z xs =
+        match xs with
+        | [] -> z
+        | [y] -> y
+        | y :: ys -> f y (reduce' f z ys)
