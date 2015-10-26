@@ -16,6 +16,10 @@ alle5'' xs = [ x | x <- xs, x < 5]
 parilliset :: [Int] -> [Int]
 parilliset xs = [ x | x <- xs, even x]
 
+foo :: [(Int, String)] -> Int -> [(int, String))]
+foo [] _           = []
+foo ((a, b) : t) v = if a == v then (a, b) : foo t v else foo t v
+
 evenIndex :: [a] -> [a]
 evenIndex as = map fst l where
   l = filter (even . snd) (zip as [0..])

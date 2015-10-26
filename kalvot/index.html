@@ -110,7 +110,7 @@ val g = double compose add1
 f(1)
 					</code></pre>
 					<h5>Haskell</h5>
-					<pre><code data-trim contenteditable>
+					<pre><code class="haskell" data-trim contenteditable>
 add1 x = x + 1
 double x = x + x
 let basic = \x -> double (add1 x)
@@ -118,7 +118,7 @@ let f = double . add1
 f 1
 					</code></pre>
 					<h5>F#</h5>
-					<pre><code data-trim contenteditable>
+					<pre><code class="f#" data-trim contenteditable>
 let add1 x = x + 1
 let double x = x + x
 let basic = fun x -> double (add1 x)
@@ -127,6 +127,28 @@ f 1
 1 |> f
 1 |> add1 |> double
 					</code></pre>
+				</section>
+
+				<section>
+					<h2>Funtion tyyppi</h2>
+					<h5>Scala</h5>
+					<pre><code class="scala" data-trim contenteditable>
+val add1 = (i: Int) => i+1
+> add1: Int => Int
+					</code></pre>
+					<h5>Haskell</h5>
+					<pre><code class="haskell" data-trim contenteditable>
+add1 x = x + 1
+> add1 :: Num a => a -> a
+// jos ei kerrota vielä tyyppiluokista mitään...
+> add1 :: Integer -> Interger
+					</code></pre>
+					<h5>F#</h5>
+					<pre><code class="f#" data-trim contenteditable>
+let add1 x = x + 1
+> val add1 : x:int -> int
+					</code></pre>
+
 				</section>
 
 				<section>
@@ -268,7 +290,7 @@ let s = sum 1 2
 					</code></pre>
 					<h5>F#</h5>
 <!-- // let sum = fun x y -> x + y -->
-					<pre><code class="ocaml" data-trim contenteditable>
+					<pre><code class="f#" data-trim contenteditable>
 let sum x y = x + y
 let s = sum 1 2
 					</code></pre>
