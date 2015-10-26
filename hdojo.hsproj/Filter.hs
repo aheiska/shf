@@ -16,7 +16,7 @@ alle5'' xs = [ x | x <- xs, x < 5]
 parilliset :: [Int] -> [Int]
 parilliset xs = [ x | x <- xs, even x]
 
-foo :: [(Int, String)] -> Int -> [(int, String))]
+foo :: [(Int, String)] -> Int -> [(Int, String)]
 foo [] _           = []
 foo ((a, b) : t) v = if a == v then (a, b) : foo t v else foo t v
 
@@ -32,9 +32,12 @@ evenIndex' xx = ei xx 0 where
     | even i    = x : ei xs (i+1)
     | otherwise = ei xs (i+1)
 
+evenIndex'' :: [a] -> [a]
+evenIndex'' xs = [x | (x, i) <- zip xs [0..], i `mod` 2 == 0]
+
 filter0 :: (a -> Bool) -> [a] -> [a]
 filter0 _ [] = []
-filter0 f (x : xs) = if f x then x : filter0 f xs else filter0 xs
+filter0 f (x : xs) = if f x then x : filter0 f xs else filter0 f xs
 
 filter' :: (a -> Bool) -> [a] -> [a]
 filter' _ [] = []

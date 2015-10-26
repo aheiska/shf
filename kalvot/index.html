@@ -163,12 +163,12 @@ laske (fun l r -> x * l + r) 3 5
 					</p>
 					<p>
 						Tietotyypit jonka päälle listat rakentuvat (oikeasti nämä ovat hieman eri nimisiä).
-						Eivät varsinaisesti tämän dojon ydinasiaa ja näistä päästään kys kielten
+						Eivät varsinaisesti tämän dojon ydinasiaa ja näistä päästään ko kielten
 						tyyppijärjestelmiin aika nopeasti mikä ei ole tämän kerran tavoite.
 					</p>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
-trait List[+T]
+sealed trait List[+T]
 case object Nil extends List[Nothing]
 case class Cons[+T](head: T, tail: List[T]) extends List[T]
 					</code></pre>
@@ -197,7 +197,7 @@ List(1, 2, 3)
 					<h5>F#</h5>
 					<pre><code class="F#" data-trim contenteditable>
 [1; 2; 3]
-> 1 :: 2 :: []
+> 1 :: 2 :: 3 :: []
 					</code></pre>
 				</section>
 
@@ -304,6 +304,17 @@ let rec add1 xs =
 					<p>
 						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
 					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def double(l: List[Int]) : List[Int] = l match {
+	case Nil    => Nil
+	case h :: t => h+h :: double(t)
+}
+
+def lens(l: List[String]) : List[Int] = l match {
+	case Nil    => Nil
+	case h :: t => h.size :: lens(t)
+}
+					</code></pre>
 					<p>
 						Toteuta funktio <b>map</b>, joka abstrahoi kaiken muun paitsi eroavan osuuden.
 					</p>
@@ -320,7 +331,7 @@ def map[T,V](l: List[T])(f: T => V) : List[V] = l match {
 					<pre><code class="haskell" data-trim contenteditable>
 map' :: (a -> b) -> [a] -> [b]
 map' _ []       = []
-map' f (x : xs) = f x : map f xs
+map' f (x : xs) = f x : map' f xs
 					</code></pre>
 					<pre><code class="F#" data-trim contenteditable>
 let rec map' xs f =
@@ -341,19 +352,19 @@ let rec map' xs f =
 					</p>
 					<pre><code class="scala" data-trim contenteditable>
 def alle5(l: List[Int]): List[Int] = l match {
-  case Nil => Nil
+  case Nil    => Nil
   case h :: t => if (h < 5) h :: alle5(t) else alle5(t)
 }
 					</code></pre>
 					<pre><code class="haskell" data-trim contenteditable>
 alle5 :: [Int] -> [Int]
-alle5 [] = []
+alle5 []       = []
 alle5 (x : xs) = if x < 5 then x : alle5 xs else alle5 xs
 					</code></pre>
 					<pre><code class="f#" data-trim contenteditable>
 let rec alle5 xs =
     match xs with
-    | [] -> []
+    | []     -> []
     | h :: t -> if h < 5 then h :: alle5 t else alle5 t
 					</code></pre>
 				</section>
@@ -370,6 +381,9 @@ let rec alle5 xs =
 				<section>
 					<h3>Tehtävä 2</h3>
 					<p>
+						Taas ovat melko samanlaista keskenään.
+					</p>
+					<p>
 						Toteuta korkeamman kertaluvun funktio <b>filter</b> joka
 						abstrahoi edelliset.
 					</p>
@@ -379,9 +393,9 @@ let rec alle5 xs =
 					<h3>Tehtävä 2: Ratkaisu</h3>
 					<pre><code class="scala" data-trim contenteditable>
 def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
-  case Nil => Nil
+  case Nil            => Nil
   case h :: t if f(h) => h :: filter(t, f)
-  case _ :: t => filter(t, f)
+  case _ :: t         => filter(t, f)
 }
 					</code></pre>
 					<pre><code class="haskell" data-trim contenteditable>
@@ -390,13 +404,17 @@ filter' _ [] = []
 filter' f (x : xs)
   | f x       = x : filter' f xs
   | otherwise = filter' f xs
+
+filter'' f xs = [x | x <- xs, f x]
 					</code></pre>
 					<pre><code class="f#" data-trim contenteditable>
 let rec filter f xs =
     match xs with
-    | [] -> []
+    | []              -> []
     | h :: t when f h -> h :: filter f t
-    | _ :: t -> filter f t
+    | _ :: t          -> filter f t
+
+let filter' f xs = [for x in xs do if f x then yield x]
 					</code></pre>
 				</section>
 
@@ -410,13 +428,13 @@ let rec filter f xs =
 					</p>
 					<pre><code class="scala" data-trim contenteditable>
 def sum(l: List[Int]) : Int = l match {
-  case Nil => 0
+  case Ni   l => 0
   case h :: t => h + sum(t)
 }
 					</code></pre>
 					<pre><code class="haskell" data-trim contenteditable>
 sum' :: [Integer] -> Integer
-sum' [] = 0
+sum' []      = 0
 sum' (h : t) = h + (sum t)
 					</code></pre>
 					<pre><code class="f#" data-trim contenteditable>
@@ -437,7 +455,7 @@ let rec sum xs =
 				</section>
 
 				<section>
-					<h3>Tehtävä 1: Reduce</h3>
+					<h3>Tehtävä 3</h3>
 					<p>
 						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
 					</p>
@@ -450,52 +468,102 @@ let rec sum xs =
 					<h3>Tehtävä 3: Ratkaisu</h3>
 					<pre><code class="scala" data-trim contenteditable>
 def reduce[T](l: List[T], z: T)(f: (T, T) => T) : T = l match {
-  case Nil => z
+  case Nil    => z
   case h :: t => f(h, reduce(t, z)(f))
 }
 					</code></pre>
 					<pre><code class="haskell" data-trim contenteditable>
 reduce :: (a -> a -> a) -> a -> [a] -> a
-reduce f z [] = z
+reduce f z []      = z
 reduce f z (h : t) = f h (reduce f z t)
 					</code></pre>
 					<pre><code class="f#" data-trim contenteditable>
 let rec reduce' f z xs =
     match xs with
-    | [] -> z
-    | [y] -> y
+    | []      -> z
     | y :: ys -> f y (reduce' f z ys)
 					</code></pre>
 				</section>
 
+
+
 				<section>
-					<h3>Tehtävä 4: Fold</h3>
+					<h3>Tehtävä 4</h3>
 					<p>
 						Itseasiassa nämä kolmekin ovat selvästi samanlaisia.
 					</p>
 					<pre><code class="scala" data-trim contenteditable>
 reduce[T](l: List[T], f: (T, T) => T, z: T) : T = l match {
-	case Nil => z
+	case Nil    => z
 	case h :: t => f(h, reduce(t, f, z))
 }
 
 def map[T,V](l: List[T], f: T => V) : List[V] = l match {
-	case Nil => Nil
+	case Nil    => Nil
 	case h :: t => f(h) :: map(t, f)
 }
 
 def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
-	case Nil => Nil
-	case h :: t if f(h) => h :: filter(t, f)
-	case _ :: t => filter(t, f)
+	case Nil    => Nil
+	case h :: t =>  if f(h) h :: filter(t, f) else filter(t, f)
 }
 					</code></pre>
 				</section>
 
 				<section>
-					<h3>Tehtävä 4: Fold</h3>
+					<h3>Tehtävä 4</h3>
+					<p>
+						Toteuta rekursiivinen funktio fold, joka yhdistää reducen, mapin ja filterin.
+					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def fold[T, V](l: List[T], f: (T, V) => V, z: V) : V = ???
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+fold :: [a] -> (a -> b -> b) -> b -> b
+					</code></pre>
+					<pre><code class="f#" data-trim contenteditable>
+let rec fold (l : 'a list) (f : 'a -> 'b -> 'b) (z : 'b) = failwith "Not implemented"
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Tehtävä 4: Ratkaisu</h3>
+					<pre><code class="scala" data-trim contenteditable>
+def fold[T, V](l: List[T], f: (T, V) => V, z: V) : V = l match {
+  case Nil    => z
+  case h :: t => f(h, fold(t, f, z))
+}
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+fold :: [a] -> (a -> b -> b) -> b -> b
+fold [] _ z       = z
+fold (x : xs) f z = f x (fold xs f z)
+					</code></pre>
+					<pre><code class="f#" data-trim contenteditable>
+let rec fold l f z =
+    match l with
+    | []     -> z
+    | h :: t -> f h (fold t f z)
+					</code></pre>
+					<p>
+						Nämä ovat oikeasti funktio nimeltään fold right.
+						Eroon fold left funktion kanssa ei mennä tässä.
+					</p>
+				</section>
+
+				<section>
+					<h3>Fold, huomiot</h3>
+					<blockquote>fold on listan rekursion yleistys!</blockquote>
+					<p>
+						Oikeastaan mappiä, filteriä jne ei tarvittaisi kunhan fold on saatavilla. Tosin
+						on paljon mukavampi kirjoittaa <code>map (+1) lista</code> kuin vastaava foldilla
+						<!-- <code>foldr (\x acc -> x + 1 : acc) [] lista</code> -->
+					</p>
+				</section>
+
+				<section>
+					<h3>Tehtävä 5</h3>
 					<ol>
-						<li>Toteuta rekursiivinen funktio fold, joka yhdistää reducen, mapin ja filterin</li>
 						<li>Toteuta reduce käyttäen foldia</li>
 						<li>Toteuta map käyttäen foldia</li>
 						<li>Toteuta filter käyttäen foldia</li>
@@ -503,13 +571,8 @@ def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
 				</section>
 
 				<section>
-					<h3>Tehtävä 4: Ratkaisu</h3>
+					<h3>Tehtävä 5: Ratkaisu, Scala</h3>
 					<pre><code class="scala" data-trim contenteditable>
-def fold[T, V](l: List[T], z: V)(f: (T, V) => V) : V = l match {
-  case Nil => z
-  case h :: t => f(h, fold(t, f, z))
-}
-
 def reducef[T](l: List[T])(f: (T, T) => T) =
   fold(l.tail, l.head)(f)
 
@@ -524,20 +587,40 @@ def filterf[T](l: List[T])(f: T => Boolean) =
 				</section>
 
 				<section>
-					<h3>Fold, huomiot</h3>
-					<blockquote>fold on listan rekursion yleistys!</blockquote>
+					<h3>Tehtävä 5: Ratkaisu, Haskell</h3>
+					<pre><code class="scala" data-trim contenteditable>
+mapf :: (a -> b) -> [a] -> [b]
+mapf f xs = foldr' (\x acc -> f x : acc) ([] :: [b]) xs
+
+reducef :: (a -> a -> a) -> [a] -> a
+reducef f (x : xs) = foldr' f x xs
+
+filterf :: (a -> Bool) -> [a] -> [a]
+filterf f xs = foldr' lf ([] :: [a]) xs where
+  lf x acc
+    | f x       = x : acc
+    | otherwise = acc
+					</code></pre>
+				</section>
+
+				<section>
 					<p>
-						Oikeastaan mappiä, filteriä jne ei tarvittaisi kunhan fold on saatavilla. Tosin
-						on paljon mukavampi kirjoittaa <code>map (+1) lista</code> kuin
-						<code>foldr (\x acc -> x + 1 : acc) [] lista</code>
+						Bonustehtävät:
 					</p>
+					<ol>
+						<li>IBAN-numeron validointi</li>
+						<li>Viitenumeron tarkastussumman laskenta</li>
+					</ol>
 				</section>
 
 				<section>
 					<h3>Lopuksi</h3>
 					<p>
 						Millään tänään opitulla, on oikeastaan aika vähän mitään tekemistä
-						funktionaalisen ohjelmoinnin käytännön kanssa. Anteeksi.
+						funktionaalisen ohjelmoinnin kanssa käytännössä.
+					</p>
+					<p>
+						Anteeksi.
 					</p>
 					<p>
 						Nämä asiat on kuitenkin tärkeä ymmärtää, koska niin moni aisia palautuu
@@ -546,6 +629,12 @@ def filterf[T](l: List[T])(f: T => Boolean) =
 						(Programming is not a specatator sport)
 					</p>
 					<blockquote>99 problems, learn you a haskell</blockquote>
+					<blockquote>
+						Steps to becoming a great (Haskell) programmer:<br />
+						1.) Pick a problem.<br />
+						2.) Write a solution with (Haskell) (any|every) way you can.<br />
+						3.) Repeat.
+					</blockquote>
 				</section>
 
 			</div>
