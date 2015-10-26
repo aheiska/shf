@@ -82,7 +82,7 @@
 					</p>
 					<p>
 						Imperatiivisen ohjelmoinnin peruskäsitteitä,
-						muuttuvia muuttujia, ehtoja tai silmukoja,
+						muuttuvia muuttujia tai silmukoja,
 						ei ole funktionaalisessa ohjelmoinnissa. Käytetyt tietorakenteetkin
 						ovat (käytännössä aina) muuttumattomia.
 					</p>
@@ -93,62 +93,25 @@
 					<p>
 						Funktioita voidaan ohjelmakoodissa käsitellä kuten dataa. Niitä voidaan
 						välittää parametreina, palauttaa funktioista, sijoittaa muuttujiin, ja
-						yhdistää kuten arvojakin voidaan.
+						yhdistää, kuten arvojakin voidaan.
 					</p>
 			  </section>
 
 				<section>
 					<h2>Funktiot ensimmäisen luokan kansalaisina</h2>
-					<blockquote>hölmössä paikasssa. Lambda on uusi juttu vielä...</blockquote>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
-val add1 = (i: Int) => i+1
-val double = (i: Int) => i*2
-val basic = (x:Int) => double(add1(x))
-val f = add1 andThen double
-val g = double compose add1
-f(1)
+def laske(oper: (Int, Int) => Int, l: Int, r: Int) = oper(l, r)
 					</code></pre>
 					<h5>Haskell</h5>
 					<pre><code class="haskell" data-trim contenteditable>
-add1 x = x + 1
-double x = x + x
-let basic = \x -> double (add1 x)
-let f = double . add1
-f 1
+laske :: (Integer -> Integer -> Integer) -> Integer -> Integer -> Integer
+laske oper l r = oper l r
 					</code></pre>
 					<h5>F#</h5>
 					<pre><code class="f#" data-trim contenteditable>
-let add1 x = x + 1
-let double x = x + x
-let basic = fun x -> double (add1 x)
-let f = add1 >> double
-f 1
-1 |> f
-1 |> add1 |> double
+let laske oper l r = oper l r
 					</code></pre>
-				</section>
-
-				<section>
-					<h2>Funtion tyyppi</h2>
-					<h5>Scala</h5>
-					<pre><code class="scala" data-trim contenteditable>
-val add1 = (i: Int) => i+1
-> add1: Int => Int
-					</code></pre>
-					<h5>Haskell</h5>
-					<pre><code class="haskell" data-trim contenteditable>
-add1 x = x + 1
-> add1 :: Num a => a -> a
-// jos ei kerrota vielä tyyppiluokista mitään...
-> add1 :: Integer -> Interger
-					</code></pre>
-					<h5>F#</h5>
-					<pre><code class="f#" data-trim contenteditable>
-let add1 x = x + 1
-> val add1 : x:int -> int
-					</code></pre>
-
 				</section>
 
 				<section>
@@ -163,22 +126,20 @@ let add1 x = x + 1
 
 				<section>
 					<h3>Teoriaa: Lambdat koodissa</h3>
-					<blockquote>Miten demota näitä kun ei vielä osata korkeamman kertaluvun funktioita?</blockquote>
 					<h5>Scala</h5>
 					<pre><code class="scala" data-trim contenteditable>
-val y = 5
-list.map(x => x * y)
+val x = 2
+laske((l, r) => x * l + r, 3, 5)
 					</code></pre>
 					<h5>Haskell</h5>
 					<pre><code data-trim contenteditable>
-y = 5
-map (\x -> x * y) list
+x = 2
+laske (\l r -> x * l + r) 3 5
 					</code></pre>
 					<h5>F#</h5>
 					<pre><code data-trim contenteditable>
-let y = 5
-List.map (fun x -> x * y) list
-list.Select(fun x -> x * y) // open System.Linq
+let x = 2
+laske (fun l r -> x * l + r) 3 5
 					</code></pre>
 				</section>
 
@@ -539,6 +500,7 @@ def filterf[T](l: List[T])(f: T => Boolean) =
 						kerran kirjoittanut sen myös oppii hyvin.
 						(Programming is not a specatator sport)
 					</p>
+					<blockquote>99 problems, learn you a haskell</blockquote>
 				</section>
 
 			</div>
