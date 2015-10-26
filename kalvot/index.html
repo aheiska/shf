@@ -500,7 +500,7 @@ let rec reduce' f z xs =
 						Itseasiassa nämä kolmekin ovat selvästi samanlaisia.
 					</p>
 					<pre><code class="scala" data-trim contenteditable>
-reduce[T](l: List[T], f: (T, T) => T, z: T) : T = l match {
+def reduce[T](l: List[T], f: (T, T) => T, z: T) : T = l match {
 	case Nil    => z
 	case h :: t => f(h, reduce(t, f, z))
 }
