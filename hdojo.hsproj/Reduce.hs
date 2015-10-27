@@ -25,7 +25,7 @@ sumDoubles [] = 0
 sumDoubles (h : t) = double h + sum t
 
 reduce :: [Integer] -> (Integer -> Integer -> Integer) -> Integer
-reduce [] f = error "reduce on empty list"a
+reduce [] f = error "reduce on empty list"
 reduce [h] f = h
 reduce (h : t) f = f h (reduce t f)
 

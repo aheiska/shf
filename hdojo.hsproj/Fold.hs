@@ -5,6 +5,17 @@ fold :: [a] -> (a -> b -> b) -> b -> b
 fold [] _ z       = z
 fold (x : xs) f z = f x (fold xs f z)
 
+-- Tässä on virhe! b -> a -> b aiheuttaa parametreista b:n evaluoinnin ennen a:ta
+-- jolloin rekursio lähtee purkautumaan vasemmalle -> fold2 (++) ["1", "2", "3"] == "321"
+fold2 :: (b -> a -> b) -> [a] -> b -> b
+fold2 _ [] z       = z
+fold2 f (x : xs) z = f (fold2 f xs z) x
+
+fold3 :: (a -> b -> b) -> [a] -> b -> b
+fold3 f []       z = z
+fold3 f (x : xs) z = f x (fold3 f xs z)
+
+
 -- std allekirjoitus
 foldr' :: (a -> b -> b) -> b -> [a] -> b
 foldr' _ z []       = z

@@ -1,0 +1,23 @@
+
+
+Kiitos kaikille osallistujille.
+
+Dojon materiaalit löytyvät osoitteesta: https://github.com/aheiska/shf
+
+Lopuksi tuli vielä kysymys tällaisesta käyttäytymisestä:
+
+fold (++) ["1", "2", "3"] ""
+> "321"
+
+Vastasin tähän, että parametrit ovat väärinpäin. Mikä on sinällään oikein, mutta
+siitä ei ole selvää minkä funktion parametreja tarkoitin. Mielenkiintoinen
+harjoitus on miettiä miksi funktio
+
+fold (b -> a -> b) -> [a] -> b -> b
+
+toimii kuvatulla tavalla, mutta funktio
+
+fold (a -> b -> b) -> [a] -> b -> b
+
+toimii oletetusti. (Foldit tässä ovat foldr:iä, käsittääkseni kukaan ei
+foldl:ää itsestään keksinyt)
