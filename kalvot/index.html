@@ -104,8 +104,7 @@
 					<h2>Funktiot ensimmäisen luokan kansalaisina</h2>
 					<p>
 						Funktioita voidaan ohjelmakoodissa käsitellä kuten dataa. Niitä voidaan
-						välittää parametreina, palauttaa funktioista, sijoittaa muuttujiin, ja
-						yhdistää, kuten arvojakin voidaan.
+						välittää parametreina, palauttaa funktioista ja sijoittaa muuttujiin kuten arvojakin.
 					</p>
 			  </section>
 
@@ -117,7 +116,7 @@ def laske(oper: (Int, Int) => Int, l: Int, r: Int) = oper(l, r)
 					</code></pre>
 					<h5>Haskell</h5>
 					<pre><code class="haskell" data-trim contenteditable>
-laske :: (Integer -> Integer -> Integer) -> Integer -> Integer -> Integer
+laske :: (Int -> Int -> Int) -> Int -> Int -> Int
 laske oper l r = oper l r
 					</code></pre>
 					<h5>F#</h5>
@@ -162,11 +161,6 @@ laske (fun l r -> x * l + r) 3 5
 						päästä (head) ja hännästä (tail). Pää on alkio ja häntä on uusi,
 						yhden lyhyempi lista.
 					</p>
-					<p>
-						Tietotyypit jonka päälle listat rakentuvat (oikeasti nämä ovat hieman eri nimisiä).
-						Eivät varsinaisesti tämän dojon ydinasiaa ja näistä päästään ko kielten
-						tyyppijärjestelmiin aika nopeasti mikä ei ole tämän kerran tavoite.
-					</p>
 				</section>
 
 				<section>
@@ -209,11 +203,8 @@ List(1, 2, 3)
 				<section>
 					<h2>Teoriaa: Hahmontunnistus (pattern matching)</h2>
 					<p>
-						Eikö olisi näppärää, jos aina ei tarvitsisi kirjoittaa if (olio.jasen == x) ... else if (olio.jasen == y)...
-						Tämä onnistuu hahmontunnistuksen avulla.
-					</p>
-					<p>
 						Switch-case steroideilla. Samaan aikaan testataan ehtoa ja puretaan arvo muuttujiin.
+						Samassa siis sekä if että sijoitus.
 					</p>
 				</section>
 
@@ -283,7 +274,7 @@ def add1(l: List[Int]) : List[Int] = l match {
 }
 					</code></pre>
 					<pre><code class="haskell" data-trim contenteditable>
-add1 :: [Integer] -> [Integer]
+add1 :: [Int] -> [Integer]
 add1 []       = []
 add1 (x : xs) = x+1 : add1 xs
 					</code></pre>
@@ -296,7 +287,7 @@ let rec add1 xs =
 				</section>
 
 				<section>
-					<h3>Tehtävä 2</h3>
+					<h3>Tehtävä 1</h3>
 					<p>
 						Kirjoita funktio joka:
 					</p>
@@ -390,6 +381,22 @@ let rec alle5 xs =
 					<p>
 						Taas ovat melko samanlaista keskenään.
 					</p>
+
+					<pre><code class="scala" data-trim contenteditable>
+def alle5(l: List[Int]): List[Int] = l match {
+  case Nil    => Nil
+  case h :: t => if (h < 5) h :: alle5(t) else alle5(t)
+}
+
+def parilliset(l: List[Int]) : List[Int] = l match {
+  case Nil    => Nil
+  case h :: t =>
+    if (h % 2 == 0)
+      h :: parilliset(t)
+    else
+      parilliset(t)
+}
+					</code></pre>
 					<p>
 						Toteuta korkeamman kertaluvun funktio <b>filter</b> joka
 						abstrahoi edelliset.
@@ -435,7 +442,7 @@ let filter' f xs = [for x in xs do if f x then yield x]
 					</p>
 					<pre><code class="scala" data-trim contenteditable>
 def sum(l: List[Int]) : Int = l match {
-  case Ni   l => 0
+  case Nil    => 0
   case h :: t => h + sum(t)
 }
 					</code></pre>
@@ -457,7 +464,6 @@ let rec sum xs =
 					<ol>
 						<li>Kaikkien alkioiden tulo</li>
 						<li>Kaikki alkiot (merkkijonot) katenoituna yhteen merkkijonoon</li>
-						<li>Kaikkien alkioiden (merkkijonojen) pituudet laskettuna yhteen</li>
 					</ol>
 				</section>
 
@@ -466,6 +472,22 @@ let rec sum xs =
 					<p>
 						Käytännössä sama koodi kaikissa! Mitä eroja niissä on?
 					</p>
+					<pre><code class="scala" data-trim contenteditable>
+def sum(l: List[Int]) : Int = l match {
+  case Nil    => 0
+  case h :: t => h + sum(t)
+}
+
+def product(l: List[Int]) : Int = l match {
+  case Nil    => 1
+  case h :: t => h * product(t)
+}
+
+def cat(l: List[String]) : String = l match {
+  case Nil    => ""
+  case h :: t => h ++ cat(t)
+}
+					</code></pre>
 					<p>
 						Toteuta funktio reduce, joka abstrahoi kaiken muun paitsi eroavan osuuden.
 					</p>
@@ -512,7 +534,7 @@ def map[T,V](l: List[T], f: T => V) : List[V] = l match {
 
 def filter[T](l: List[T], f: T => Boolean) : List[T] = l match {
 	case Nil    => Nil
-	case h :: t =>  if f(h) h :: filter(t, f) else filter(t, f)
+	case h :: t => if f(h) h :: filter(t, f) else filter(t, f)
 }
 					</code></pre>
 				</section>
@@ -529,7 +551,8 @@ def fold[T, V](l: List[T], f: (T, V) => V, z: V) : V = ???
 fold :: [a] -> (a -> b -> b) -> b -> b
 					</code></pre>
 					<pre><code class="f#" data-trim contenteditable>
-let rec fold (l : 'a list) (f : 'a -> 'b -> 'b) (z : 'b) = failwith "Not implemented"
+let rec fold (l : 'a list) (f : 'a -> 'b -> 'b) (z : 'b) =
+	failwith "Not implemented"
 					</code></pre>
 				</section>
 
@@ -611,9 +634,9 @@ filterf f xs = foldr' lf ([] :: [a]) xs where
 				</section>
 
 				<section>
-					<p>
+					<h3>
 						Bonustehtävät:
-					</p>
+					</h3>
 					<ol>
 						<li>IBAN-numeron validointi</li>
 						<li>Viitenumeron tarkastussumman laskenta</li>
@@ -623,29 +646,33 @@ filterf f xs = foldr' lf ([] :: [a]) xs where
 				<section>
 					<h3>Lopuksi</h3>
 					<p>
-						Millään tänään opitulla, on oikeastaan aika vähän mitään tekemistä
-						funktionaalisen ohjelmoinnin kanssa käytännössä.
-					</p>
-					<p>
-						Anteeksi.
-					</p>
-					<p>
-						Nämä asiat on kuitenkin tärkeä ymmärtää, koska niin moni aisia palautuu
+						Nämä asiat on tärkeä ymmärtää, koska niin moni asia palautuu
 						listan käsittelyyn. Uskomme myös vahvaan näppituntumaan, kun asian on
 						kerran kirjoittanut sen myös oppii hyvin.
 						(Programming is not a specatator sport)
 					</p>
-					<h6>Kotitehtäviä</h6>
-					<ol>
-						<li><a href="http://aperiodic.net/phil/scala/s-99/">99 ongelmaa</a></li>
-						<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good!</a></li>
-					</ol>
 					<blockquote>
 						Steps to becoming a great (Haskell) programmer:<br />
 						1.) Pick a problem.<br />
 						2.) Write a solution with (Haskell) (any|every) way you can.<br />
 						3.) Repeat.
 					</blockquote>
+				</section>
+
+				<section>
+					<h3>Kotitehtäviä</h3>
+					<ol>
+						<li><a href="http://aperiodic.net/phil/scala/s-99/">99 ongelmaa</a></li>
+						<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell for Great Good!</a></li>
+					</ol>
+				</section>
+
+				<section>
+					<h3>Kysyttävää?</h3>
+				</section>
+
+				<section>
+					<h7>Nil</h7>
 				</section>
 
 			</div>
