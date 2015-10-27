@@ -383,11 +383,6 @@ let rec alle5 xs =
 					</p>
 
 					<pre><code class="scala" data-trim contenteditable>
-def alle5(l: List[Int]): List[Int] = l match {
-  case Nil    => Nil
-  case h :: t => if (h < 5) h :: alle5(t) else alle5(t)
-}
-
 def parilliset(l: List[Int]) : List[Int] = l match {
   case Nil    => Nil
   case h :: t =>
