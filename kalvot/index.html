@@ -396,11 +396,41 @@ def parilliset(l: List[Int]) : List[Int] = l match {
     else
       parilliset(t)
 }
+
+def posFst(l: List[(Int, String)]): List[(Int, string)] = l match {
+  case Nil                   => Nil
+  case (i, s) :: t  if i > 0 => (i, s) :: posFst(t)
+  case h :: t                => posFst(t)
+}
 					</code></pre>
 					<p>
 						Toteuta korkeamman kertaluvun funktio <b>filter</b> joka
 						abstrahoi edelliset.
 					</p>
+				</section>
+
+				<section>
+					<pre><code class="scala" data-trim contenteditable>
+def parillisetIndeksit(l: List[Int]) : List[Int] = {
+	def pi(l: List[Int], i: Int) : List[Int] = (l, i) match {
+		case (Nil, _)                  => Nil
+		case (h :: t, i) if i % 2 == 0 => h :: pi(t, i+1)
+		case (h :: t, i)               => pi(t, i+1)
+	}
+	pi(l, 0)
+}
+					</code></pre>
+					<pre><code class="haskell" data-trim contenteditable>
+// haskell
+evenIndex'' :: [a] -> [a]
+evenIndex'' xs = [x | (x, i) <- zip xs [0..], i `mod` 2 == 0]
+					</code></pre>
+
+					<pre><code class="f#" data-trim contenteditable>
+let parillisetIndeksit xs =
+  [for (x,i) in List.zip xs [0 .. List.length xs] do
+	  if i % 2 = 0 then yield x]
+					</code></pre>
 				</section>
 
 				<section>

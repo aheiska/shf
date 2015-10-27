@@ -21,6 +21,12 @@ object Filter {
     case _ :: t => parilliset(t)
   }
 
+  def posFst(l: List[(Int, String)]) : List[(Int, String)] = l match {
+    case Nil                   => Nil
+    case (i, s) :: t  if i > 0 => (i, s) :: posFst(t)
+    case h :: t                => posFst(t)
+  }
+
   def parillisetIndeksit(l: List[Int]) : List[Int] = {
     def pi(l: List[Int], i: Int) : List[Int] = (l, i) match {
       case (Nil, _) => Nil
