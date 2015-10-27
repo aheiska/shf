@@ -1,40 +1,11 @@
 
-FP-intro dojo @ tty
+FP-intro dojo @ tty 27.10.2015
 ===================
 
-## Alkukalvot
+## FDojo = F# kamat
 
-* funktiot ensimmäisen luokan kansalaisina
-* //lambda ja sulkeuma
-* immutable lista
- * miltä näyttää?
- * scala 1 :: (2 :: (3 :: Nil))
- `sealed trait List[T]`
- `case object Nil extends List[Nothing]`
- `case class Cons[T](h: T, t: List[T]) extends List[T]`
- * haskell 1 : (2 : (3 : []))
- `data List a = Nil | Cons a (List a)`
- * F# `type List<'a> = Nil | Cons ....`
-* type inference?
- * Maininta mitä on
-* pattern matching
- * Pakko avata vähän, että tehtävien tekeminen on järkevää
- * "Eikö olisi näppärää, jos ei aina tarttisi iffitellä mitä tyyppiä saatiin"
-* ohjelmointi ilman muuttuvaa tilaa ja silmukoita
+## sdpjo = scala kamat
 
-## Tehtävät
+## hdojo.hsproj = haskell kamat
 
-Näistä kaikista näytetään jokin perusratkaisu ensin. Sen jälkeen tehtävänä pari lähes samanlaista itse koodaten. Imo malliratkaisu voi paistua kalvoilla sen aikaa.
-
-0. Reduce
-* Map
-* Filter
-* Fold
-
-## Ehtiikö?
-* Jokin "isompi" tehtävä, viitenumeron laskenta, iban-numeron validointi?
- - näille stubi, täydennä funktiot?
-
-## Lopuksi:
-* Opitte jotain millä on on hyvin vähän tekemistä oikean FP:n kanssa. Anteeksi.
-*
+## kalvot = kalvot
